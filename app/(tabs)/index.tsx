@@ -1,6 +1,6 @@
 import { Image } from 'expo-image';
 import { Platform, StyleSheet, Text, View, TextInput } from 'react-native';
-import  UIStyles  from '../../styles/uistyles'
+import  UIStyles  from '../../client/styles/uistyles'
 import { HelloWave } from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
