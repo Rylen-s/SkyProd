@@ -1,10 +1,11 @@
 import { Image } from 'expo-image';
 import { Platform, StyleSheet, Text, View, TextInput } from 'react-native';
 import  UIStyles  from '../../styles/uistyles'
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+import { HelloWave } from '../../components/HelloWave';
+import ParallaxScrollView from '../../components/ParallaxScrollView';
+import { ThemedText } from '../../components/ThemedText';
+import { ThemedView } from '../../components/ThemedView';
+import React from 'react';
 
 export default function HomeScreen() {
   return (
@@ -22,8 +23,8 @@ export default function HomeScreen() {
       </ThemedView>
       <ThemedView style={styles.stepContainer}>
         <ThemedText type="subtitle">What did we accomplish today!!</ThemedText>
-        <TextInput placeholder='Enter details here' placeholderTextColor="#999" style = {UIStyles.input} onChangeText={newText => setNotes(newText)}
-        defaultValue={notes}></TextInput>
+        {/* <TextInput placeholder='Enter details here' placeholderTextColor="#999" style = {UIStyles.input} onChangeText={newText => setNotes(newText)}
+        defaultValue={notes}></TextInput> */}
       </ThemedView>
       <ThemedView style={styles.stepContainer}>
         <ThemedText type="subtitle">Step 2: Explore</ThemedText>

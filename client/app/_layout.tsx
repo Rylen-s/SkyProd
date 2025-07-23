@@ -1,3 +1,4 @@
+import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useEffect, useState } from 'react';
 import { useFonts } from 'expo-font';
@@ -11,12 +12,27 @@ import  SigninScreen from './signinscreen'
 import  Tabs from './(tabs)/_layout'
 import NotFound from './+not-found'
 import { View } from 'react-native';
-import { FIREBASE_AUTH } from '@/client/firebaseConfig';
+import { FIREBASE_AUTH } from '../../client/firebaseConfig';
 import { onAuthStateChanged, User } from 'firebase/auth';
+import axios from 'axios';
 
 export default function RootLayout() {
   
+  // outside and internal stacks
   const Stack = createNativeStackNavigator();
+
+  const fetchAPI = async () => {
+    try {
+    const response = await axios.get("http://localhost:8080/api");
+    console.log(response.data.fruits);
+    } catch (err){
+      console.warn("API sketch failed: ",err);
+    }
+  };
+
+  useEffect(() => {
+    fetchAPI();
+  }, [])
   
   // const [loaded] = useFonts({
   //   SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
@@ -26,6 +42,7 @@ export default function RootLayout() {
   //   // Async font loading only occurs in development.
   //   return null;
   // }
+  // authorization
   const[user, setUser] = useState<User | null>(null);
 
 

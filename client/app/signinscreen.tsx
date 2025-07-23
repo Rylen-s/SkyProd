@@ -1,3 +1,4 @@
+import React from 'react';
 import { Link, Stack, useNavigation } from 'expo-router';
 import { StyleSheet, Button, View, Text, ActivityIndicator, KeyboardAvoidingView, TextInput } from 'react-native';
 // import { TextInput } from 'react-native-gesture-handler';
