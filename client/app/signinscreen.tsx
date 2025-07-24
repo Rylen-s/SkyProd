@@ -21,6 +21,7 @@ export default function signinScreen({ navigation }: any) {
       try {
         const response = await signInWithEmailAndPassword(auth, email,password);
         console.log(response)
+        navigation.replace('tabs');
       }
       catch(error: any){
         alert('Sign in Failed: ' + error.message);

@@ -2,7 +2,7 @@ import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useEffect, useState } from 'react';
 import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
+// import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { createNativeStackNavigator} from '@react-navigation/native-stack'
 import { NavigationContainer } from '@react-navigation/native';
@@ -14,12 +14,16 @@ import NotFound from './+not-found'
 import { View } from 'react-native';
 import { FIREBASE_AUTH } from '../../client/firebaseConfig';
 import { onAuthStateChanged, User } from 'firebase/auth';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import axios from 'axios';
+
+const queryClient = new QueryClient();
+const Stack = createNativeStackNavigator();
 
 export default function RootLayout() {
   
   // outside and internal stacks
-  const Stack = createNativeStackNavigator();
+  
 
 
   const fetchAPI = async () => {
@@ -56,17 +60,19 @@ export default function RootLayout() {
 
     if (user){
       return (
-        
+        <QueryClientProvider client={queryClient}>
           <Stack.Navigator>
             <Stack.Screen name="tabs" component={Tabs} options={{ headerShown: true }} />
             <Stack.Screen name="+not-found" component={NotFound} />
           </Stack.Navigator>
+          </QueryClientProvider>
       
       )
     } 
     else{
 
   return (
+    <QueryClientProvider client={queryClient}>
     <View>
       <Stack.Navigator initialRouteName='Title'>
         <Stack.Screen name="Title" component={TitleScreen} options={{ headerShown: false} } />
@@ -75,6 +81,8 @@ export default function RootLayout() {
       </Stack.Navigator>
       <StatusBar style="auto" />
     </View>
+    </QueryClientProvider>
+
   );
   }
 }
