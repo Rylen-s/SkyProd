@@ -21,6 +21,7 @@ export default function RootLayout() {
   // outside and internal stacks
   const Stack = createNativeStackNavigator();
 
+
   const fetchAPI = async () => {
     try {
     const response = await axios.get("http://localhost:8080/api");
@@ -44,14 +45,13 @@ export default function RootLayout() {
   // }
   // authorization
   const[user, setUser] = useState<User | null>(null);
-
-
   useEffect(() => {
-    onAuthStateChanged(FIREBASE_AUTH, (user) => {
-      console.log('user', user); 
-      setUser(user); 
+    // subscribe to auth state
+    const unsub = onAuthStateChanged(FIREBASE_AUTH, (fbUser) => {
+      setUser(fbUser);
     });
-  }, [])
+    return unsub;
+  }, []);
 
 
     if (user){

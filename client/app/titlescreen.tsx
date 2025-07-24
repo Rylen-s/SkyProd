@@ -8,18 +8,16 @@ export default function titleScreen({ navigation }: any) {
     
 
     return (
-        
+        <SafeAreaView>
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
           <Text style={{alignItems: 'center', fontSize: 24, fontWeight: 'bold', color: 'white' }}>SKY PROD MOTHA FUCKA!</Text>
           <Button
             title="Sign In"
-            onPress={() => navigation.navigate('Sign-in')} // Navigate to your main screen
+            onPress={() => navigation.navigate('Sign-in')}
           />
-          <Button
-            title="Sign Up"
-            onPress={() => navigation.navigate('Sign-up')} // Navigate to your main screen
-          />
+
         </View>
+        </SafeAreaView>
         
     )
 }
