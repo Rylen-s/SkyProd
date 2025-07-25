@@ -1,14 +1,15 @@
 import React from 'react';
-import { Link, Stack, useNavigation } from 'expo-router';
+// import { Link, Stack, useNavigation } from 'expo-router';
 import { StyleSheet, Button, View, Text, ActivityIndicator, KeyboardAvoidingView, TextInput } from 'react-native';
 // import { TextInput } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useState } from 'react'; 
 import { FIREBASE_AUTH } from '../firebaseConfig'
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { RootStackParamList }from '../utils/types.js'
 
-
-
+type Props = NativeStackScreenProps<RootStackParamList, 'Signin'>;
 
 export default function signinScreen({ navigation }: any) {
     const [email, setEmail] = useState('');
@@ -21,7 +22,8 @@ export default function signinScreen({ navigation }: any) {
       try {
         const response = await signInWithEmailAndPassword(auth, email,password);
         console.log(response)
-        navigation.replace('tabs');
+        navigation.replace('Tabs');
+        
       }
       catch(error: any){
         alert('Sign in Failed: ' + error.message);

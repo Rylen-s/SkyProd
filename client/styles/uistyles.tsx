@@ -1,7 +1,8 @@
 import {StyleSheet} from 'react-native';
+import React from 'react';
 
 
-const Styles = StyleSheet.create({
+export const Styles = StyleSheet.create({
     header: {
         flexDirection: 'row',
         alignItems: 'center',

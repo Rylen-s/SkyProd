@@ -3,15 +3,18 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import type { Activity } from '../utils/types';
 import { fetchActivities, addActivity } from '../services/activitiesService';
 import * as svc from '../services/activitiesService';
+import { FIREBASE_AUTH } from '@/firebaseConfig';
 
 export function useActivities() {
   const qc = useQueryClient();
 
-  // ← pass both the key and the function
   const activitiesQuery = useQuery<Activity[], Error>({
-    queryKey: ['activities'],
-    queryFn:  fetchActivities,
+    queryKey:   ['activities'],
+    queryFn:    svc.fetchActivities,
+    enabled:    !!FIREBASE_AUTH.currentUser, // only run once we have a user
+    // you can also add staleTime, refetchOnWindowFocus, etc. here
   });
+  // ← pass both the key and the function
   
 
   const addActivityMutation = useMutation<Activity, Error, string>({

@@ -4,3 +4,10 @@ export interface Activity {
     description: string;  // what the user logged
     created_at: string;   // ISO timestamp from Postgres
   }
+
+export type RootStackParamList = {
+    Title: undefined;
+    Signin: undefined;
+    Tabs: undefined;
+    NotFound: undefined;
+  };
