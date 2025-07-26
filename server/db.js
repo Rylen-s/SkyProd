@@ -1,10 +1,9 @@
-//Connect to PostgreSQL
-const { Pool } = require('pg');
-const pool = new Pool({
-  user:     process.env.PG_USER,
-  host:     process.env.PG_HOST,
-  database: process.env.PG_DB,
-  password: process.env.PG_PASS,
-  port:     process.env.PG_PORT,
-});
-module.exports = pool;
+// db.js
+require('dotenv').config();
+import { createClient } from '@supabase/supabase-js';
+
+export const supabase = createClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_SERVICE_ROLE_KEY,
+  { db: { connectionString: process.env.DATABASE_URL } }
+);

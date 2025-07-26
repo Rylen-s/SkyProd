@@ -3,6 +3,13 @@ const express    = require('express');
 const cors       = require('cors');
 const authMw     = require('./authmid');
 const activities = require('./routes/activities');
+require('dotenv').config();
+import { createClient } from '@supabase/supabase-js';
+
+const supabase = createClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_SERVICE_ROLE_KEY
+);
 
 const app = express();
 
@@ -38,4 +45,20 @@ app.get('/api/me', (req, res) => {
 // 7) Start the server
 app.listen(8080, () => {
   console.log('Server started at port 8080');
+});
+
+app.get('/api/supabase-test', async (req, res) => {
+  try {
+    // fetch all activities
+    const { data, error } = await supabase
+      .from('activities')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (error) throw error;
+    res.json({ data });
+  } catch (err) {
+    console.error('Supabase test error:', err);
+    res.status(500).json({ error: err.message });
+  }
 });
