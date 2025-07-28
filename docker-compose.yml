@@ -1,0 +1,21 @@
+version: "3.9"
+services:
+
+  server:
+    build:
+      context: ./server
+    env_file:
+      - .env
+    ports:
+      - "8080:8080"       
+    # local postgre link here
+
+  client:
+    build:
+      context: ./client
+    env_file:
+      - .env
+    ports:
+      - "19006:19006"     # 19006 in browser
+    depends_on:
+      - server
