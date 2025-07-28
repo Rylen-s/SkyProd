@@ -1,9 +1,10 @@
 // server.js
-const express    = require('express');
-const cors       = require('cors');
-const authMw     = require('./authmid');
-const activities = require('./routes/activities');
-require('dotenv').config();
+import express from 'express';
+import cors from 'cors';
+import authMw  from './authmid.js';
+import activities from './routes/activities.js';
+import dotenv from 'dotenv';
+dotenv.config();
 import { createClient } from '@supabase/supabase-js';
 
 const supabase = createClient(
@@ -62,3 +63,10 @@ app.get('/api/supabase-test', async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
+// after all your app.use(...) and routes
+app.use((err, req, res, next) => {
+  console.error('🚨 Unhandled error:', err.stack || err);
+  res.status(500).json({ error: err.message || 'Internal Server Error' });
+});
+

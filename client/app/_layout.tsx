@@ -42,7 +42,7 @@ export default function RootLayout() {
       try {
         console.log('⚙️ Getting ID token…');
         const token = await user.getIdToken(true);
-        console.log('🔥 Got token:', token.slice(0, 20) + '…');
+        console.log('🔥 Got token:', token);
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       } catch (e) {
         console.warn('❌ Failed to fetch ID token', e);

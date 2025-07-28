@@ -1,6 +1,6 @@
 // server/routes/tasks.js
-const express = require('express');
-const pool    = require('../db');
+import express from 'express';
+import pool from '../db.js';
 const router  = express.Router();
 
 // GET /api/tasks

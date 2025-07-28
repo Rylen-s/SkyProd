@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server",
@@ -17,8 +18,11 @@
     "nodemon": "^3.1.10"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.52.1",
     "cors": "^2.8.5",
+    "dotenv": "^17.2.1",
     "express": "^5.1.0",
+    "firebase-admin": "^13.4.0",
     "tsx": "^4.20.3"
   }
 }

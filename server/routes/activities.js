@@ -1,24 +1,52 @@
-const express = require('express');
-const pool = require('../db');
+import express from 'express';
+import pool from '../db.js';
 const router = express.Router();
+import supabase from '../db.js';
 
 // GET /api/activities
-router.get('/', async (req, res) => {
-  const { rows } = await pool.query(
-    'SELECT * FROM activities WHERE uid=$1 ORDER BY created_at DESC',
-    [req.uid]
-  );
-  res.json(rows);
+  console.log('Got to activties.js route');
+
+router.get('/', async (req, res, next) => {
+  try {
+    const { data, error } = await supabase
+      .from('activities')
+      .select('*')
+      .order('created_at', { ascending: true });
+
+    if (error) {
+      console.error('❌ Supabase query error:', error);
+      // forward to your error handler
+      return next(new Error(error.message));
+    }
+
+    return res.json(data);
+  } catch (err) {
+    console.error('🔥 Unexpected error in /api/activities:', err);
+    return next(err);
+  }
 });
 
-// POST /api/activities
-router.post('/', async (req, res) => {
-  const { description } = req.body;
-  const { rows } = await pool.query(
-    'INSERT INTO activities(uid, description) VALUES($1,$2) RETURNING *',
-    [req.uid, description]
-  );
-  res.status(201).json(rows[0]);
+router.post('/', async (req, res, next) => {
+  try {
+    const { description } = req.body;
+    if (!description) {
+      return res.status(400).json({ error: 'Missing description' });
+    }
+    const { data, error } = await supabase
+      .from('activities')
+      .insert([{ description, uid: req.uid }])
+      .select();
+
+    if (error) {
+      console.error('Supabase insert error:', error);
+      throw error;
+    }
+
+    return res.status(201).json(data[0]);
+  } catch (err) {
+    console.error('Error in POST /api/activities:', err);
+    next(err);
+  }
 });
 
-module.exports = router;
+export default router;

@@ -1,12 +1,16 @@
 //Authentification MiddleWare
-const admin = require('firebase-admin');
-const serviceAccount = require('./serviceAccountKey.json');
+
+import admin from 'firebase-admin';
+// const admin = require('firebase-admin');
+import serviceAccount from './serviceAccountKey.json' with { type: "json" };
+
+// const serviceAccount = require('./serviceAccountKey.json');
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
 });
 console.log
 
-module.exports = async function authenticate(req, res, next) {
+export default async function authenticate(req, res, next) {
   // 1) Grab the header
   const authHeader = req.headers.authorization || req.headers.Authorization;
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
