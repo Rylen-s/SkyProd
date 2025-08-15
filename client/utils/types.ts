@@ -11,3 +11,10 @@ export type RootStackParamList = {
     Tabs: undefined;
     NotFound: undefined;
   };
+
+export interface Quest { 
+    id: string;
+    title: string;
+    content?: string;      // adjust to your schema (maybe `description`)
+    created_at?: string;
+};

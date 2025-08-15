@@ -36,13 +36,14 @@ export default function HomeScreen() {
       {isLoading ? (
         <Text>Loading…</Text>
       ) : (
-        <FlatList
-          data={acts}
-          keyExtractor={a => String(a.id)}
-          renderItem={({ item }) => (
-            <Text>{item.created_at}: {item.description}</Text>
-          )}
-        />
+        <></>
+        // <FlatList
+        //   data={acts}
+        //   keyExtractor={a => String(a.id)}
+        //   renderItem={({ item }) => (
+        //     <Text>{item.created_at}: {item.description}</Text>
+        //   )}
+        // />
       )}
     </View>
     </ParallaxScrollView>

@@ -1,35 +1,75 @@
 // server/routes/tasks.js
 import express from 'express';
-import pool from '../db.js';
+import supabase from '../db.js';
 const router  = express.Router();
 
-// GET /api/tasks
-router.get('/', async (req, res) => {
-  const { rows } = await pool.query(
-    'SELECT * FROM quests WHERE uid = $1 ORDER BY created_at DESC',
-    [req.uid]
-  );
-  res.json(rows);
+// GET /api/quests
+router.get('/', async (req, res, next) => {
+  try {
+    const { data, error } = await supabase
+      .from('quests')
+      .select('*')
+      .order('created_at', { ascending: true });
+
+    if (error) {
+      console.error('❌ Supabase get error:', error);
+      // forward to your error handler
+      return next(new Error(error.message));
+    }
+
+    return res.json(data);
+  } catch (err) {
+    console.error('❌ GET error in /api/quests:', err);
+    return next(err);
+  }
 });
 
-// POST /api/tasks
-router.post('/', async (req, res) => {
-  const { title } = req.body;
-  const { rows } = await pool.query(
-    'INSERT INTO tasks(uid, title) VALUES($1,$2) RETURNING *',
-    [req.uid, title]
-  );
-  res.status(201).json(rows[0]);
+// POST /api/quests
+router.post('/', async (req, res, next) => {
+  try {
+    const { description, xp, metadata } = req.body;
+    if (!description || !xp) {
+      return res.status(400).json({ error: '❌ Missing description or xp' });
+    }
+    const { data, error } = await supabase
+      .from('quests')
+      .insert([{ description, xp, uid: req.uid , completed: false}])
+      .select();
+
+    if (error) {
+      console.error('❌ Supabase insert error:', error);
+      throw error;
+    }
+
+    return res.status(201).json(data[0]);
+  } catch (err) {
+    console.error('❌ Error in POST /api/quests:', err);
+    next(err);
+  }
 });
 
-// PATCH /api/tasks/:id/complete
-router.patch('/:id/complete', async (req, res) => {
-  const { id } = req.params;
-  const { rows } = await pool.query(
-    'UPDATE tasks SET completed = TRUE WHERE id = $1 AND uid = $2 RETURNING *',
-    [id, req.uid]
-  );
-  res.json(rows[0]);
+// PATCH /api/quests/:id
+router.delete('/:id', async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    console.log('DELETE /api/quests/:id', { id, uid: req.uid });
+
+    // IMPORTANT: match same user column you insert on POST (you used `uid`)
+    const { error } = await supabase
+      .from('quests')
+      .delete()
+      .match({ id, uid: req.uid });   // if your table is uuid id, `id` should be that uuid
+
+    if (error) {
+      console.error('Supabase delete error:', error);
+      return next(error);             // will become a 500 with the message
+    }
+
+    return res.status(204).end();     // No Content – no body to serialize
+  } catch (err) {
+    console.error('DELETE handler error:', err);
+    next(err);
+  }
 });
 
-module.exports = router;
+export default router;

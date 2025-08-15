@@ -1,0 +1,12 @@
+.bounce-button {
+  animation: bounce 0.6s ease-in-out infinite alternate;
+}
+
+@keyframes bounce {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-10px); /* Adjust for desired bounce height */
+  }
+}
