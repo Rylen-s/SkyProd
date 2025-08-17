@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { View, TextInput, Button } from 'react-native';
 import { useActivities } from '../hooks/useActivities';
-import { Styles } from '../styles/uistyles'
+import  Styles  from '../styles/uistyles'
 
 
 export default function ActivityForm() {
